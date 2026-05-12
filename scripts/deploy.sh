@@ -44,7 +44,7 @@ push_env() {
   # Supprime si existait, puis ajoute
   vercel env rm "$key" production -y >/dev/null 2>&1 || true
   echo "$val" | vercel env add "$key" production >/dev/null 2>&1
-  log "  $key ✓"
+  log "  $key OK"
 }
 
 push_env NEXT_PUBLIC_SUPABASE_URL "${NEXT_PUBLIC_SUPABASE_URL:-}"
@@ -56,7 +56,7 @@ push_env NEXT_PUBLIC_SITE_URL "${NEXT_PUBLIC_SITE_URL:-}"
 log "Déploiement en production..."
 vercel --prod
 
-log "✅ Déploiement terminé."
+log "Déploiement terminé."
 echo
 echo "Vérifie :"
 echo "  - https://[ton-domaine]/        (landing)"

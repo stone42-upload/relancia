@@ -1,20 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./pages/**/*.{js,jsx}",
-    "./components/**/*.{js,jsx}",
-  ],
+  darkMode: "class",
+  content: ["./pages/**/*.{js,jsx}", "./components/**/*.{js,jsx}"],
   theme: {
     extend: {
-      colors: {
-        brand: {
-          50: "#eef2ff",
-          100: "#e0e7ff",
-          500: "#6366f1",
-          600: "#4f46e5",
-          700: "#4338ca",
-          900: "#312e81",
-        },
+      fontFamily: {
+        sans: ["Inter", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
+      },
+      letterSpacing: { tightest: "-0.03em" },
+      boxShadow: {
+        glow: "0 0 60px -10px rgba(16,185,129,0.35)",
+        glowSoft: "0 0 80px -20px rgba(16,185,129,0.25)",
       },
     },
   },

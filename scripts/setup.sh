@@ -61,7 +61,7 @@ fi
 
 # 5. Récap
 echo
-log "✅ Setup terminé."
+log "Setup terminé."
 echo
 echo "Prochaines étapes :"
 echo "  1. Crée un projet Supabase → https://supabase.com"

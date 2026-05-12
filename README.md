@@ -1,121 +1,111 @@
-# RelanceIA — Phase 0 (validation + hub de partage WhatsApp/Facebook)
+# RelanceIA
 
-Stack : **Next.js 14** (pages router) + **Supabase** (Postgres + RLS) + **Tailwind** + **Vercel**.
+Phase 0 — sondage de validation et distribution sur WhatsApp et Facebook.
 
-5 routes :
+Stack : Next.js 14 (pages router), Supabase (Postgres avec RLS), Tailwind, déployé sur Vercel.
 
-- `/` — landing
-- `/form` — sondage 5 questions (validation Phase 0)
-- `/admin` — dashboard mot de passe + export CSV
-- `/share` — hub de partage : posts pré-écrits, deeplinks **WhatsApp** + **Facebook**, groupes ciblés, checklist
-- `/api/submit` (POST) + `/api/responses` (GET protégé)
+## Routes
 
-## ⚡ Démarrage rapide (10-15 min)
+- `/` — landing avec preuves chiffrées et hiérarchie de l'argument commercial
+- `/form` — sondage de 5 questions pour qualifier les répondants
+- `/admin` — tableau de bord protégé par mot de passe, export CSV, critère Go/No-Go
+- `/share` — cinq messages prêts à publier, liens directs WhatsApp et Facebook, six groupes ciblés, checklist du jour 1
+- `/api/submit` — POST avec whitelist côté serveur
+- `/api/responses` — GET protégé par header `x-admin-password`
 
-### 1. Setup local (3 min)
+## Démarrage local
 
 ```bash
 cd relancia
 bash scripts/setup.sh
 ```
 
-Le script vérifie Node, installe les deps, crée `.env.local`, lance un build de contrôle.
+Le script vérifie Node, installe les dépendances, crée `.env.local` à partir de `.env.example`, lance un build de contrôle.
 
-### 2. Créer le projet Supabase (3 min)
+## Configuration Supabase
 
-1. Va sur https://supabase.com → **New project**
-2. Une fois créé, ouvre **SQL Editor** → colle le contenu de `supabase/schema.sql` → **Run**
-3. Va dans **Settings → API** et copie :
+1. Créer un projet sur https://supabase.com
+2. SQL Editor → coller le contenu de `supabase/schema.sql` et exécuter
+3. Settings → API → copier dans `.env.local` :
    - `Project URL` → `NEXT_PUBLIC_SUPABASE_URL`
    - `anon public` → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-   - `service_role` (cliquer "Reveal") → `SUPABASE_SERVICE_ROLE_KEY`
+   - `service_role` → `SUPABASE_SERVICE_ROLE_KEY`
 
-⚠️ Ne **jamais** committer la `service_role` key. Elle reste serveur-side uniquement.
+La clé `service_role` ne doit jamais être committée. Elle reste exclusivement côté serveur.
 
-### 3. Éditer `.env.local`
+## Variables d'environnement
 
-```bash
+```
 NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
 SUPABASE_SERVICE_ROLE_KEY=eyJ...
-ADMIN_PASSWORD=un-mot-de-passe-fort
+ADMIN_PASSWORD=mot-de-passe-fort
 NEXT_PUBLIC_SITE_URL=https://relancia.vercel.app
 ```
 
-### 4. Tester en local (1 min)
+## Tests en local
 
 ```bash
 npm run dev
 ```
 
-Ouvre :
+Vérifier :
 - http://localhost:3000 (landing)
-- http://localhost:3000/form (remplis une réponse test)
-- http://localhost:3000/admin (entre `ADMIN_PASSWORD`, vérifie ta réponse)
-- http://localhost:3000/share (vérifie les posts)
+- http://localhost:3000/form (remplir une réponse de test)
+- http://localhost:3000/admin (entrer `ADMIN_PASSWORD`, vérifier la réponse)
+- http://localhost:3000/share (vérifier les messages générés)
 
-### 5. Déployer (Vercel)
+## Déploiement Vercel
 
-**Option A — Dashboard (recommandé la 1re fois) :**
+Option 1 — interface web :
 
-1. Push ton code sur GitHub
-2. https://vercel.com → **Add new… → Project** → importer le repo
-3. **Environment Variables** : copie les 5 vars de `.env.local` (sans les guillemets)
-4. **Deploy**
-5. Récupère ton URL → mets-la dans `NEXT_PUBLIC_SITE_URL` et redéploie
+1. Pousser le code sur GitHub
+2. https://vercel.com → Add new → Project → importer le repo
+3. Environment Variables : copier les 5 variables de `.env.local`
+4. Deploy
+5. Mettre à jour `NEXT_PUBLIC_SITE_URL` avec l'URL réelle et redéployer
 
-**Option B — CLI :**
+Option 2 — CLI :
 
 ```bash
 bash scripts/deploy.sh
 ```
 
-### 6. Lancer la Phase 0 🚀
+## Critère de validation Phase 0
 
-1. Ouvre `https://[ton-domaine]/share`
-2. La page **WhatsApp + Facebook** te donne :
-   - Le lien public à partager (`/form`)
-   - 5 posts pré-écrits (général, trésorerie, perso, WhatsApp 1-to-1, statut WhatsApp)
-   - Bouton **💬 WhatsApp** sur chaque post → ouvre WhatsApp avec texte pré-rempli
-   - Bouton **📘 Facebook** → ouvre le sharer Facebook
-   - Bouton **📤 Partager** (mobile, Web Share API native)
-   - 6 raccourcis vers les groupes Facebook ciblés
-   - Checklist persistante (sauvegardée en local)
-3. Workflow recommandé :
-   - **Statut WhatsApp** : publie le "Statut court" (visible 24h par tous tes contacts)
-   - **WhatsApp 1-to-1** : envoie le "Message court" à 10-15 contacts ciblés
-   - **Facebook** : poste 2-3 groupes aujourd'hui, 2-3 demain (étale dans le temps)
-4. Surveille `/admin` :
-   - Objectif **Phase 0 = 8+ réponses + 3+ "Oui"** sur le pricing 9-19 €/mois
-   - Une bannière verte `✅ GO` s'affiche dès 3 "Oui"
-5. Pour les répondants avec email + "Oui"/"Peut-être" → appel 15 min (voir script dans la conversation précédente)
+L'objectif minimal pour considérer la Phase 0 réussie :
 
-## 🔐 Sécurité
+- 8 réponses qualifiées au sondage
+- 3 répondants qui sélectionnent "Oui, sans hésiter" sur la question du pricing 9-19 €/mois
 
-- **RLS activé** sur la table `responses`, **aucune policy** = aucun accès via clé anonyme. Les écritures et lectures passent uniquement par l'API server-side avec la `service_role`.
-- **Whitelist server-side** des valeurs envoyées (`/api/submit`) → un curl malicieux ne peut pas insérer n'importe quoi.
-- **Admin protégé** par mot de passe (header `x-admin-password`). Stocké en `sessionStorage`, jamais en cookie.
-- **Aucun PDF** stocké en Phase 0 (juste les réponses du sondage). RGPD : email collecté avec consentement explicite ("optionnel").
+En-dessous de ce seuil, l'idée doit être ajustée avant tout développement supplémentaire (changer la cible, le pricing, ou le périmètre fonctionnel).
 
-## 📁 Structure
+## Sécurité
+
+- RLS Supabase activée sur la table `responses`, aucune policy configurée — donc aucun accès via la clé anonyme. Les écritures et lectures passent exclusivement par les API server-side avec la clé `service_role`.
+- Whitelist côté serveur dans `/api/submit` — une requête malicieuse ne peut pas injecter de valeurs non prévues.
+- L'administration est protégée par mot de passe via le header `x-admin-password`. Le mot de passe est stocké dans `sessionStorage` côté client (pas en cookie persistant), donc invalidé à la fermeture de l'onglet.
+- Aucun PDF stocké en Phase 0 : seules les réponses du sondage sont enregistrées. L'email est collecté avec consentement explicite via un champ optionnel.
+
+## Structure
 
 ```
 relancia/
 ├── pages/
 │   ├── _app.js
 │   ├── _document.js
-│   ├── index.js          → Landing
-│   ├── form.js           → Sondage 5 questions (progress bar)
-│   ├── admin.js          → Dashboard + GO/NO-GO + export CSV
-│   ├── share.js          → Hub WhatsApp + Facebook
+│   ├── index.js
+│   ├── form.js
+│   ├── admin.js
+│   ├── share.js
 │   └── api/
-│       ├── submit.js     → POST whitelist + RLS
-│       └── responses.js  → GET protégé mot de passe
-├── lib/supabaseAdmin.js  → Client service_role (server-only)
-├── supabase/schema.sql   → Table + RLS verrouillée
+│       ├── submit.js
+│       └── responses.js
+├── lib/supabaseAdmin.js
+├── supabase/schema.sql
 ├── scripts/
-│   ├── setup.sh          → Setup auto (Node + deps + build)
-│   └── deploy.sh         → Push env vars + deploy Vercel CLI
+│   ├── setup.sh
+│   └── deploy.sh
 ├── styles/globals.css
 ├── tailwind.config.js
 ├── postcss.config.js
@@ -124,15 +114,16 @@ relancia/
 └── .env.example
 ```
 
-## 🛣️ Phase suivante
+## Étapes suivantes
 
-Si Phase 0 ✅ (3+ "Oui") :
+Si la Phase 0 valide (3 "Oui" minimum) :
 
-1. Email aux répondants qualifiés : "Merci, MVP arrive semaine X, tu auras accès gratuit."
-2. Build MVP (extraction PDF Vision + scoring Haiku + relances Brevo) — voir prompts dans la conversation.
-3. Beta 5 users, jour 22 lancement payant.
+1. Email aux répondants qualifiés pour annoncer le calendrier MVP.
+2. Construction du MVP : extraction PDF par Vision, scoring par Haiku, envoi des relances par Brevo.
+3. Beta avec les 5 premiers utilisateurs payants à la semaine 3.
+4. Lancement payant ouvert à la semaine 4 ou 5.
 
-Si Phase 0 ❌ (< 3 "Oui") :
+Si la Phase 0 ne valide pas :
 
-1. Re-lire les "Peut-être" et "Non" → pourquoi ?
-2. Pivot possible : freelances B2B (factures plus grosses), ou cabinets comptables.
+1. Analyser les "Peut-être" et "Non" pour identifier la raison principale du rejet.
+2. Pivot possible : freelances B2B (montants moyens plus élevés) ou cabinets comptables (cible avec budget logiciel établi).
