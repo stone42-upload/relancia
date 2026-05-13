@@ -7,15 +7,14 @@ export default function Home() {
     <>
       <Head>
         <title>RelanceIA - Les impayes ? Termines.</title>
-        <meta name="description" content="L'IA analyse vos factures, predit les risques de retard et envoie des relances naturelles a votre place." />
       </Head>
-      <div className="min-h-screen bg-white dark:bg-[#0F172A] text-zinc-900 dark:text-white">
+      <div className="min-h-screen bg-grad-light dark:bg-grad-dark text-ink-900 dark:text-bone-100 transition-colors">
         <Header />
         <Hero />
-        <Stats />
-        <Problem />
-        <HowItWorks />
-        <FormCTA />
+        <Probleme />
+        <Resultats />
+        <Trust />
+        <CTA />
         <Footer />
       </div>
     </>
@@ -24,18 +23,16 @@ export default function Home() {
 
 function Header() {
   return (
-    <header className="border-b border-zinc-200 dark:border-zinc-800/70 sticky top-0 z-30 bg-white/80 dark:bg-[#0F172A]/80 backdrop-blur">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <header className="absolute top-0 inset-x-0 z-30">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 h-20 flex items-center justify-between">
         <Logo />
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-600 dark:text-zinc-300">
-          <a href="#fonctionnalites" className="hover:text-zinc-900 dark:hover:text-white">Fonctionnalites</a>
-          <a href="#tarifs" className="hover:text-zinc-900 dark:hover:text-white">Tarifs</a>
-          <a href="#a-propos" className="hover:text-zinc-900 dark:hover:text-white">A propos</a>
+        <nav className="hidden md:flex items-center gap-8 text-[15px] text-ink-900/80 dark:text-bone-100/80">
+          <a href="#fonctionnalites" className="hover:text-ink-900 dark:hover:text-bone-100">Fonctionnalites</a>
+          <a href="#tarifs" className="hover:text-ink-900 dark:hover:text-bone-100">Tarifs</a>
+          <a href="#a-propos" className="hover:text-ink-900 dark:hover:text-bone-100">A propos</a>
+          <a href="#contact" className="hover:text-ink-900 dark:hover:text-bone-100">Contact</a>
         </nav>
-        <div className="flex items-center gap-3">
-          <Link href="/form" className="hidden sm:inline-flex h-9 px-4 items-center rounded-full bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition">Commencer</Link>
-          <ThemeToggle />
-        </div>
+        <ThemeToggle />
       </div>
     </header>
   );
@@ -43,94 +40,95 @@ function Header() {
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-16 pb-20 md:pt-24 md:pb-28">
-        <div className="grid md:grid-cols-2 gap-10 md:gap-12 items-center">
-          <div>
-            <h1 className="text-[44px] sm:text-[56px] md:text-[64px] leading-[1.02] font-semibold tracking-tightest">
-              Les impayes ?<br /><span className="text-emerald-500">Termines.</span>
+    <section className="relative overflow-hidden pt-32 sm:pt-40 pb-16 sm:pb-24">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <div className="relative">
+            <div className="absolute -top-8 -left-2 select-none pointer-events-none serif text-[7rem] leading-none text-sage-400/40 dark:text-sage-300/30">&ldquo;</div>
+            <h1 className="serif text-[56px] sm:text-[72px] lg:text-[88px] leading-[0.95] tracking-tightest text-ink-900 dark:text-bone-50">
+              Les impayés ?<br/>
+              <span className="italic">Terminés.</span>
             </h1>
-            <p className="mt-6 text-lg sm:text-xl text-zinc-600 dark:text-zinc-300 max-w-xl leading-relaxed">
-              L'IA analyse vos factures, predit les risques de retard et envoie des relances naturelles a votre place. Simple, efficace, dedie aux micro-entrepreneurs francais.
+            <p className="mt-8 text-lg sm:text-xl leading-relaxed text-ink-900/75 dark:text-bone-100/75 max-w-md">
+              L&apos;IA analyse vos factures et relance vos clients en retard pour vous. Simple, efficace et 100% dédié aux micro-entrepreneurs.
             </p>
-            <div className="mt-8 flex flex-col sm:flex-row gap-3">
-              <Link href="/form" className="inline-flex h-12 px-6 items-center justify-center rounded-full bg-emerald-500 hover:bg-emerald-600 text-white text-base font-medium transition shadow-glowSoft">Commencer gratuitement</Link>
-              <a href="#how" className="inline-flex h-12 px-6 items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800 text-base font-medium transition">Comment ca marche</a>
+            <div className="mt-10">
+              <Link href="/form" className="inline-flex items-center h-14 px-8 rounded-full bg-sage-400/90 hover:bg-sage-500 text-ink-950 font-medium text-base transition shadow-glow">
+                Commencer gratuitement
+              </Link>
             </div>
-            <p className="mt-4 text-xs text-zinc-500 dark:text-zinc-400">Essai 14 jours - Sans carte bancaire - 10 places gratuites pour la phase 0</p>
           </div>
-          <div className="relative"><ChartCard /></div>
+
+          <div className="relative">
+            <PaintedChart />
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-function ChartCard() {
+function PaintedChart() {
   return (
-    <div className="relative rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-[#FAFAFA] dark:bg-[#1E2937] p-5 sm:p-7 shadow-glowSoft">
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <p className="text-xs text-zinc-500 uppercase tracking-wider">Tresorerie recuperee</p>
-          <p className="text-2xl font-semibold mt-1">+ 4 200 EUR / an</p>
-        </div>
-        <span className="text-xs font-medium px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">en moyenne</span>
-      </div>
-      <svg viewBox="0 0 400 180" className="w-full h-auto" preserveAspectRatio="none">
+    <div className="relative aspect-[4/3] w-full max-w-[640px] mx-auto">
+      <svg viewBox="0 0 640 480" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#10b981" stopOpacity="0.4"/>
-            <stop offset="100%" stopColor="#10b981" stopOpacity="1"/>
+          <linearGradient id="paint" x1="0" y1="1" x2="1" y2="0">
+            <stop offset="0%" stopColor="#85A07D" stopOpacity="0.35"/>
+            <stop offset="100%" stopColor="#A4BB9C" stopOpacity="0.95"/>
           </linearGradient>
-          <linearGradient id="fillGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#10b981" stopOpacity="0.25"/>
-            <stop offset="100%" stopColor="#10b981" stopOpacity="0"/>
-          </linearGradient>
-          <filter id="glow"><feGaussianBlur stdDeviation="3"/></filter>
+          <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="6"/>
+          </filter>
+          <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" /><feColorMatrix values="0 0 0 0 0.5 0 0 0 0 0.6 0 0 0 0 0.5 0 0 0 0.04 0"/></filter>
         </defs>
-        <path d="M0,150 C60,140 90,130 130,115 C180,95 210,90 250,70 C300,50 330,35 400,15" fill="none" stroke="#10b981" strokeOpacity="0.35" strokeWidth="6" filter="url(#glow)"/>
-        <path d="M0,150 L0,180 L400,180 L400,15 C330,35 300,50 250,70 C210,90 180,95 130,115 C90,130 60,140 0,150 Z" fill="url(#fillGrad)"/>
-        <path d="M0,150 C60,140 90,130 130,115 C180,95 210,90 250,70 C300,50 330,35 400,15" fill="none" stroke="url(#lineGrad)" strokeWidth="2.5" strokeLinecap="round"/>
-        <circle cx="400" cy="15" r="5" fill="#10b981"/>
-        <circle cx="400" cy="15" r="9" fill="#10b981" opacity="0.25"/>
+        <path d="M40 400 C 90 380, 130 360, 180 320 S 250 270, 290 290 S 380 220, 430 180 S 540 80, 600 50" fill="none" stroke="#85A07D" strokeOpacity="0.25" strokeWidth="14" filter="url(#soft)" strokeLinecap="round"/>
+        <path d="M40 400 C 90 380, 130 360, 180 320 S 250 270, 290 290 S 380 220, 430 180 S 540 80, 600 50" fill="none" stroke="url(#paint)" strokeWidth="3.5" strokeLinecap="round"/>
+        <path d="M580 70 L 605 45 L 600 80 M 605 45 L 570 50" fill="none" stroke="#A4BB9C" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+        <g fontFamily="Cormorant Garamond, Georgia, serif" fontSize="14" fill="currentColor" opacity="0.55" textAnchor="middle">
+          <text x="60" y="450">Jun</text>
+          <text x="160" y="450">Tu</text>
+          <text x="250" y="450">Wd</text>
+          <text x="340" y="450">Th</text>
+          <text x="430" y="450">Fri</text>
+          <text x="520" y="450">Sat</text>
+          <text x="600" y="450">Big</text>
+        </g>
+        <rect width="640" height="480" fill="url(#grain)" opacity="0.5"/>
       </svg>
-      <div className="mt-4 grid grid-cols-3 gap-3 text-xs">
-        <KPI label="Delai moyen" value="4h30" />
-        <KPI label="Taux reponse" value="14%" />
-        <KPI label="Economies" value="-5h/mois" />
-      </div>
     </div>
   );
 }
 
-function KPI({ label, value }) {
+function Probleme() {
   return (
-    <div className="rounded-xl border border-zinc-200 dark:border-zinc-700/70 bg-white dark:bg-[#0F172A]/50 p-3 text-center">
-      <div className="text-[10px] uppercase tracking-wider text-zinc-500">{label}</div>
-      <div className="text-sm font-semibold mt-1">{value}</div>
-    </div>
+    <section id="fonctionnalites" className="border-t border-ink-900/5 dark:border-bone-100/5">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 py-16 sm:py-20">
+        <h2 className="serif text-4xl sm:text-5xl text-ink-900 dark:text-bone-50 mb-6">Le problème</h2>
+        <p className="text-lg sm:text-xl max-w-3xl leading-relaxed text-ink-900/80 dark:text-bone-100/80">
+          Chaque année, des milliers de micro-entrepreneurs perdent du temps et de l&apos;argent à cause des factures impayées. La relance est chronophage et souvent infructueuse.
+        </p>
+      </div>
+    </section>
   );
 }
 
-function Stats() {
+function Resultats() {
   const items = [
-    { value: "27%", label: "des factures sont payees en retard de plus de 30 jours" },
-    { value: "4h30", label: "par mois perdues en moyenne a relancer vos clients" },
-    { value: "14%", label: "taux de reponse moyen sur les relances classiques" },
+    { n: "1", v: "27%", t: "de factures en retard, en moyenne, pour les entrepreneurs." },
+    { n: "2", v: "4h30", t: "de temps perdu par mois en moyenne pour les récupérer." },
+    { n: "3", v: "14%", t: "d'augmentation de votre chiffre d'affaires en moyenne." },
   ];
   return (
-    <section id="fonctionnalites" className="border-y border-zinc-200 dark:border-zinc-800 bg-[#FAFAFA] dark:bg-[#1E2937]/40">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-20">
-        <p className="text-xs uppercase tracking-wider text-zinc-500 mb-3">Le probleme en chiffres</p>
-        <h2 className="text-3xl md:text-4xl font-semibold tracking-tight max-w-2xl leading-tight">Ce qui coute vraiment cher quand tu travailles seul</h2>
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-          {items.map((it, i) => (
-            <div key={i} className="rounded-2xl border border-zinc-200 dark:border-zinc-700/70 bg-white dark:bg-[#1E2937] p-6 md:p-8">
-              <div className="flex items-center gap-2 mb-3">
-                <span className="w-6 h-6 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-semibold flex items-center justify-center">{i + 1}</span>
-              </div>
-              <div className="text-4xl md:text-5xl font-semibold text-emerald-500 tabular-nums tracking-tight">{it.value}</div>
-              <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">{it.label}</p>
+    <section className="">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 pb-20">
+        <h2 className="serif text-4xl sm:text-5xl text-ink-900 dark:text-bone-50 mb-10">Nos résultats</h2>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {items.map((it) => (
+            <div key={it.n} className="relative rounded-2xl p-7 bg-white/60 dark:bg-white/[0.03] border border-ink-900/5 dark:border-bone-100/10 backdrop-blur-sm">
+              <span className="absolute top-5 left-5 w-8 h-8 rounded-full bg-sage-400/15 border border-sage-400/40 text-sage-700 dark:text-sage-300 text-sm font-medium inline-flex items-center justify-center">{it.n}</span>
+              <div className="serif text-[64px] leading-none text-ink-900 dark:text-bone-50 mt-12">{it.v}</div>
+              <p className="mt-4 text-[15px] leading-relaxed text-ink-900/70 dark:text-bone-100/70">{it.t}</p>
             </div>
           ))}
         </div>
@@ -139,63 +137,49 @@ function Stats() {
   );
 }
 
-function Problem() {
+function Trust() {
   return (
-    <section className="max-w-3xl mx-auto px-4 sm:px-6 py-16 md:py-20">
-      <p className="text-xs uppercase tracking-wider text-zinc-500 mb-3">Le probleme</p>
-      <h2 className="text-3xl md:text-4xl font-semibold tracking-tight leading-tight mb-5">Tu ne peux pas relancer correctement 50 clients a la main, chaque mois.</h2>
-      <div className="space-y-4 text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed">
-        <p>Chaque annee, des milliers de micro-entrepreneurs perdent du temps et de l'argent a cause des factures impayees. La relance manuelle est chronophage, stressante, et souvent inefficace : un email generique a J+30 obtient en moyenne 1,8 % de taux de reponse.</p>
-        <p>Quand tu factures 30 000 EUR par an, ca represente 4 200 EUR qui dorment chez tes clients pendant que toi, tu travailles deja sur le mois suivant. Les agences de recouvrement facturent 5 a 12 % du montant recouvre. Toi, tu n'as ni le temps, ni les outils.</p>
-      </div>
-    </section>
-  );
-}
-
-function HowItWorks() {
-  const steps = [
-    { n: "01", title: "Tu uploades tes factures", body: "PDF ou CSV, en un glisser-deposer. L'IA extrait automatiquement le client, le montant, la date d'echeance et l'historique. Zero saisie manuelle." },
-    { n: "02", title: "L'IA predit qui va payer en retard", body: "Un score de risque de 1 a 10 calcule sur le comportement historique de chaque client. Tu vois en un coup d'oeil les factures qui risquent de devenir des impayes." },
-    { n: "03", title: "Trois relances redigees pour toi", body: "Courtoise, ferme, tres ferme. Texte naturel signe de ton nom, adapte au profil du client. Pas de templates generiques qui sonnent faux." },
-    { n: "04", title: "Envoi automatique au bon moment", body: "Tu valides en un clic, l'IA envoie. Tu recois une notification quand le client repond. Tu reprends le controle de ta tresorerie en moins de 5 min par semaine." },
-  ];
-  return (
-    <section id="how" className="border-t border-zinc-200 dark:border-zinc-800 bg-[#FAFAFA] dark:bg-[#1E2937]/40">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-20">
-        <p className="text-xs uppercase tracking-wider text-zinc-500 mb-3">Comment ca marche</p>
-        <h2 className="text-3xl md:text-4xl font-semibold tracking-tight max-w-2xl leading-tight">Quatre etapes. Cinq minutes par semaine.</h2>
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
-          {steps.map((s) => (
-            <div key={s.n} className="rounded-2xl border border-zinc-200 dark:border-zinc-700/70 bg-white dark:bg-[#1E2937] p-6 md:p-8">
-              <div className="text-sm font-mono text-emerald-500 tracking-wider">{s.n}</div>
-              <h3 className="mt-3 text-xl font-semibold leading-tight">{s.title}</h3>
-              <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">{s.body}</p>
-            </div>
-          ))}
+    <section className="border-t border-ink-900/5 dark:border-bone-100/5">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 py-14 text-center">
+        <p className="text-sm text-ink-900/60 dark:text-bone-100/60">le relanceur qui a <span className="text-ink-900 dark:text-bone-50 font-medium">confiance</span></p>
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-x-12 gap-y-6 opacity-70 dark:opacity-80">
+          <BrandLogo label="stripe" />
+          <BrandLogo label="lenway" />
+          <BrandLogo label="payplug" />
+          <BrandLogo label="bnext" />
         </div>
       </div>
     </section>
   );
 }
 
-function FormCTA() {
+function BrandLogo({ label }) {
+  return <span className="font-semibold text-lg tracking-tight text-ink-900/70 dark:text-bone-100/70">{label}</span>;
+}
+
+function CTA() {
   return (
-    <section id="tarifs" className="max-w-3xl mx-auto px-4 sm:px-6 py-16 md:py-20 text-center">
-      <p className="text-xs uppercase tracking-wider text-zinc-500 mb-3">Phase 0 - Validation</p>
-      <h2 className="text-3xl md:text-4xl font-semibold tracking-tight leading-tight mb-4">Rejoindre les 10 premiers beta-testeurs</h2>
-      <p className="text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed max-w-xl mx-auto mb-8">Reponds a 5 questions rapides. Si tu fais partie des 10 premiers qualifies, tu recois 6 mois d'acces gratuit au produit fini, en echange de ton feedback.</p>
-      <Link href="/form" className="inline-flex h-12 px-7 items-center justify-center rounded-full bg-emerald-500 hover:bg-emerald-600 text-white text-base font-medium transition shadow-glowSoft">Participer a la phase 0</Link>
-      <p className="mt-4 text-xs text-zinc-500 dark:text-zinc-400">Sondage de 2 minutes - Pas de carte bancaire</p>
+    <section id="tarifs" className="border-t border-ink-900/5 dark:border-bone-100/5">
+      <div className="max-w-3xl mx-auto px-5 sm:px-8 py-20 text-center">
+        <h2 className="serif text-4xl sm:text-5xl text-ink-900 dark:text-bone-50 leading-tight">Rejoindre les 10 premiers beta-testeurs</h2>
+        <p className="mt-6 text-lg text-ink-900/75 dark:text-bone-100/75 max-w-xl mx-auto leading-relaxed">Réponds à 5 questions rapides. Si tu fais partie des 10 premiers qualifiés, tu obtiens 6 mois d&apos;accès gratuit au produit fini, en échange de ton feedback.</p>
+        <div className="mt-10">
+          <Link href="/form" className="inline-flex items-center h-14 px-8 rounded-full bg-sage-400/90 hover:bg-sage-500 text-ink-950 font-medium text-base transition shadow-glow">
+            Participer à la phase 0
+          </Link>
+        </div>
+        <p className="mt-4 text-xs text-ink-900/55 dark:text-bone-100/55">Sondage 2 min - Sans carte bancaire</p>
+      </div>
     </section>
   );
 }
 
 function Footer() {
   return (
-    <footer id="a-propos" className="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#0F172A]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+    <footer id="a-propos" className="border-t border-ink-900/5 dark:border-bone-100/5">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <Logo />
-        <p className="text-xs text-zinc-500 dark:text-zinc-400 max-w-md">RelanceIA - outil d'aide aux relances commerciales. Ne remplace pas un conseil juridique ou un recouvrement contentieux. Vos donnees restent confidentielles.</p>
+        <p className="text-xs text-ink-900/55 dark:text-bone-100/55 max-w-md">RelanceIA - outil d&apos;aide aux relances commerciales. Ne remplace pas un conseil juridique. Vos données restent confidentielles.</p>
       </div>
     </footer>
   );
